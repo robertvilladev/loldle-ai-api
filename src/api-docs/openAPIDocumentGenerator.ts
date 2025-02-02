@@ -1,10 +1,11 @@
 import { OpenApiGeneratorV3, OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
 
+import { gameElementRegistry } from '@modules/gameElement/gameElement.router';
+import { gameSetupRegistry } from '@modules/gameSetup/gameSetup.router';
 import { healthCheckRegistry } from '@modules/healthCheck/healthCheckRouter';
-import { taskRegistry } from '@modules/task/taskRouter';
 
 export function generateOpenAPIDocument() {
-  const registry = new OpenAPIRegistry([healthCheckRegistry, taskRegistry]);
+  const registry = new OpenAPIRegistry([healthCheckRegistry, gameSetupRegistry, gameElementRegistry]);
   const generator = new OpenApiGeneratorV3(registry.definitions);
 
   return generator.generateDocument({
