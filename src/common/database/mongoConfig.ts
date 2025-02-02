@@ -3,6 +3,8 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 import { getMongoAtlasUri } from '@common/utils/envConfig';
 import { logger } from '@src/server';
 
+import { seedGameModes } from './gameSetup';
+
 const uri = getMongoAtlasUri();
 
 const client = new MongoClient(uri, {
@@ -17,6 +19,10 @@ const connectToDatabase = async () => {
   try {
     await client.connect();
     await client.db('admin').command({ ping: 1 });
+
+    //Run initial game setup
+    await seedGameModes();
+
     logger.info('Connected to MongoDB');
   } catch (err) {
     logger.error(`Error connecting to MongoDB: ${(err as Error).message}`);
