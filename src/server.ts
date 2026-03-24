@@ -9,8 +9,10 @@ import errorHandler from '@common/middleware/errorHandler';
 import rateLimiter from '@common/middleware/rateLimiter';
 import requestLogger from '@common/middleware/requestLogger';
 import { getCorsOrigin } from '@common/utils/envConfig';
+import { gameElementRouter } from '@modules/gameElement/gameElement.router';
+import { gameSetupRouter } from '@modules/gameSetup/gameSetup.router';
 import { healthCheckRouter } from '@modules/healthCheck/healthCheckRouter';
-import { taskRouter } from '@modules/task/taskRouter';
+
 const logger = pino({ name: 'server start' });
 const app: Express = express();
 const corsOrigin = getCorsOrigin();
@@ -29,8 +31,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use(ENDPOINTS.HEALTH_CHECK.BASE, healthCheckRouter);
-app.use(ENDPOINTS.TASKS.BASE, taskRouter);
-
+app.use(ENDPOINTS.GAME_SETUP.BASE, gameSetupRouter);
+app.use(ENDPOINTS.GAME_ELEMENT.BASE, gameElementRouter);
 // Swagger UI
 app.use('/api-docs', openAPIRouter);
 
